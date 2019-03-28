@@ -4,10 +4,10 @@ public class Cliente {
 
 	private int rut;
 	private String nombre, apellidoP, apellidoM, sexo, nacionalidad, fechadenacimiento;
-	
+
 	public Cliente(int rut, String nombre, String apellidoP, String apellidoM, String sexo, String nacionalidad,
 			String fechadenacimiento) {
-		
+
 		this.rut = rut;
 		this.nombre = nombre;
 		this.apellidoP = apellidoP;
@@ -18,17 +18,18 @@ public class Cliente {
 	}
 
 	private static Cliente cliente;
-	
+
 	public static Cliente getInstance() {
-		if (cliente ==null) {
+		if (cliente == null) {
 			cliente = new Cliente();
 		}
 		return cliente;
 	}
 
 	public Cliente() {
-		
+
 	}
+
 	public int getRut() {
 		return rut;
 	}
@@ -84,8 +85,12 @@ public class Cliente {
 	public void setFechadenacimiento(String fechadenacimiento) {
 		this.fechadenacimiento = fechadenacimiento;
 	}
-	
-	
-	
-	 
+
+	@Override
+	public String toString() {
+		return "Cliente [rut=" + rut + ", nombre=" + nombre + ", apellidoP=" + apellidoP + ", apellidoM=" + apellidoM
+				+ ", sexo=" + sexo + ", nacionalidad=" + nacionalidad + ", fechadenacimiento=" + fechadenacimiento
+				+ "]";
+	}
+
 }
