@@ -14,6 +14,10 @@ public class Habitacion {
 		this.nombrehabitacion = nombrehabitacion;
 		this.descuento = descuento;
 	}
+	
+	public Habitacion (int idhabitacion) {
+		this.idhabitacion = idhabitacion;
+	}
 
 	public int getIdhabitacion() {
 		return idhabitacion;

@@ -1,12 +1,19 @@
 package hotel.vista;
 
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import hotel.controlador.CRUD;
@@ -14,21 +21,24 @@ import hotel.controlador.CRUD;
 public class ReservaHabitacion extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	public static JTextField txtCodigoReserva;
+	public static JTextField txtHoraIngreso;
+	public static JTextField txtCantidadOcupantes;
+	public static JComboBox CBoxHab;
+	public static char id;
 
 	/**
 	 * Launch the application.
 	 */
-	CRUD cbox = new CRUD();
+	// public static CRUD cbox = new CRUD();
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					ReservaHabitacion frame = new ReservaHabitacion();
+					// CRUD.CBHabitacion(combo);
 					frame.setVisible(true);
 
 				} catch (Exception e) {
@@ -44,52 +54,114 @@ public class ReservaHabitacion extends JFrame {
 
 	public ReservaHabitacion() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 486, 632);
+		setBounds(100, 100, 455, 394);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(45, 100, 116, 24);
+		JLabel lblNewLabel = new JLabel("Codigo de Reserva");
+		lblNewLabel.setBounds(39, 45, 116, 24);
 		contentPane.add(lblNewLabel);
 
-		textField = new JTextField();
-		textField.setBounds(199, 100, 193, 26);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		txtCodigoReserva = new JTextField();
+		txtCodigoReserva.setEditable(false);
+		txtCodigoReserva.setBounds(165, 45, 130, 26);
+		contentPane.add(txtCodigoReserva);
+		txtCodigoReserva.setColumns(10);
 
-		JLabel label = new JLabel("New label");
-		label.setBounds(45, 135, 116, 24);
-		contentPane.add(label);
+		JLabel lblHoraDeIngreso = new JLabel("Hora de Ingreso");
+		lblHoraDeIngreso.setBounds(38, 87, 116, 24);
+		contentPane.add(lblHoraDeIngreso);
 
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(199, 135, 193, 26);
-		contentPane.add(textField_1);
+		txtHoraIngreso = new JTextField();
+		txtHoraIngreso.setHorizontalAlignment(SwingConstants.CENTER);
+		txtHoraIngreso.setEditable(false);
+		txtHoraIngreso.setColumns(10);
+		txtHoraIngreso.setBounds(164, 87, 131, 26);
+		contentPane.add(txtHoraIngreso);
 
-		JLabel label_1 = new JLabel("New label");
-		label_1.setBounds(45, 170, 116, 24);
-		contentPane.add(label_1);
+		JLabel lblHoraDeSalida = new JLabel("Tipo de Estadia");
+		lblHoraDeSalida.setBounds(39, 132, 116, 24);
+		contentPane.add(lblHoraDeSalida);
 
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(199, 170, 193, 26);
-		contentPane.add(textField_2);
+		JLabel lblCantidadDeClientes = new JLabel("Cantidad de Clientes");
+		lblCantidadDeClientes.setBounds(39, 167, 116, 24);
+		contentPane.add(lblCantidadDeClientes);
 
-		JLabel label_2 = new JLabel("New label");
-		label_2.setBounds(45, 205, 116, 24);
-		contentPane.add(label_2);
+		txtCantidadOcupantes = new JTextField();
+		txtCantidadOcupantes.setColumns(10);
+		txtCantidadOcupantes.setBounds(185, 167, 99, 26);
+		contentPane.add(txtCantidadOcupantes);
 
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(199, 205, 193, 26);
-		contentPane.add(textField_3);
+		CBoxHab = new JComboBox();
+		CBoxHab.setBounds(186, 215, 183, 20);
+		contentPane.add(CBoxHab);
+		CRUD.CBHabitacion(CBoxHab);
+		CBoxHab.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				CBHabitacionActionPerformed(evt);
+			}
+		});
 
-		JComboBox CBHabitacion = new JComboBox();
-		CBHabitacion.setBounds(83, 280, 183, 20);
-		contentPane.add(CBHabitacion);
-		cbox.CBHabitacion(CBHabitacion);
+		JButton btnNewButton = new JButton("Reservar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				CRUD.crearRegistro();
+
+			}
+		});
+
+		btnNewButton.setBounds(77, 284, 89, 23);
+		contentPane.add(btnNewButton);
+
+		JButton btnNewButton_1 = new JButton("Volver");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new Menu().setVisible(true);
+				dispose();
+				id = CBoxHab.getItemAt(CBoxHab.getSelectedIndex()).toString().charAt(0);
+				System.out.print(id);
+			}
+		});
+		btnNewButton_1.setBounds(272, 284, 89, 23);
+		contentPane.add(btnNewButton_1);
+
+		JRadioButton rdbtnNewRadioButton = new JRadioButton("Momento");
+		buttonGroup.add(rdbtnNewRadioButton);
+		rdbtnNewRadioButton.setBounds(175, 133, 89, 23);
+		contentPane.add(rdbtnNewRadioButton);
+
+		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Jornada");
+		buttonGroup.add(rdbtnNewRadioButton_1);
+		rdbtnNewRadioButton_1.setBounds(280, 133, 89, 23);
+		contentPane.add(rdbtnNewRadioButton_1);
+
+		JButton btnNewButton_2 = new JButton("Obtener Codigo");
+		btnNewButton_2.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CRUD.obtenerReserva();
+			}
+		});
+		btnNewButton_2.setBounds(305, 46, 107, 23);
+		contentPane.add(btnNewButton_2);
+
+		JLabel lblNewLabel_1 = new JLabel("Seleccionar Habitacion");
+		lblNewLabel_1.setBounds(39, 218, 107, 14);
+		contentPane.add(lblNewLabel_1);
 
 	}
+
+	protected void CBHabitacionActionPerformed(ActionEvent evt) {
+		CBoxHab.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				id = CBoxHab.getItemAt(CBoxHab.getSelectedIndex()).toString().charAt(0);
+
+			}
+		});
+	}
+
 }

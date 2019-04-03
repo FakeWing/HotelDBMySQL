@@ -31,8 +31,7 @@ public class RegistroCliente extends JFrame {
 	public static JDateChooser dateChooser;
 
 	private JPanel contentPane;
-	//static Cliente cliente=Cliente.getInstance();
-	
+	// static Cliente cliente=Cliente.getInstance();
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -156,7 +155,7 @@ public class RegistroCliente extends JFrame {
 		JButton btnVerificarRut = new JButton("Verificar Rut");
 		btnVerificarRut.setBounds(424, 138, 121, 23);
 		contentPane.add(btnVerificarRut);
-		
+
 		txtFecha = new JTextField();
 		txtFecha.setBounds(247, 319, 135, 20);
 		contentPane.add(txtFecha);
@@ -177,7 +176,7 @@ public class RegistroCliente extends JFrame {
 	protected void btnVerificarRutActionPerformed(ActionEvent evt) {
 		CRUD.VerificarRut();
 		CRUD.LlenarDatos(Cliente.getInstance());
-		
+
 	}
 
 	protected void btnRegistrarActionPerformed(ActionEvent evt) {

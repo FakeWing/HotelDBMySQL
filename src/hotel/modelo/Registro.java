@@ -1,15 +1,29 @@
 package hotel.modelo;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 public class Registro {
 
-	private int idregistro,idhabitacion;
-	private Cliente cliente;
+	private int idregistro, registro_codigoReserva, idHabitacion, cliente_rut;
+	private Timestamp horaIngreso;
+	//private Cliente cliente;
 	
-	public Registro(int idregistro, int idhabitacion, Cliente cliente) {
+	public Registro () {
+		
+	}
+	
+	public Registro (int idregistro, int cliente_rut) {
 		
 		this.idregistro = idregistro;
-		this.idhabitacion = idhabitacion;
-		this.cliente = cliente;
+		this.cliente_rut = cliente_rut;
+	}
+	
+	public Registro (int registro_codigoReserva, Timestamp horaIngreso, int idHabitacion) {
+		
+		this.registro_codigoReserva = registro_codigoReserva;
+		this.horaIngreso = horaIngreso;
+		this.idHabitacion = idHabitacion;
 	}
 
 	public int getIdregistro() {
@@ -20,21 +34,36 @@ public class Registro {
 		this.idregistro = idregistro;
 	}
 
-	public int getIdhabitacion() {
-		return idhabitacion;
+	public int getRegistro_codigoReserva() {
+		return registro_codigoReserva;
 	}
 
-	public void setIdhabitacion(int idhabitacion) {
-		this.idhabitacion = idhabitacion;
+	public void setRegistro_codigoReserva(int registro_codigoReserva) {
+		this.registro_codigoReserva = registro_codigoReserva;
 	}
 
-	public Cliente getCliente() {
-		return cliente;
+	public int getIdHabitacion() {
+		return idHabitacion;
 	}
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public void setIdHabitacion(int idHabitacion) {
+		this.idHabitacion = idHabitacion;
 	}
-	
-	
+
+	public int getCliente_rut() {
+		return cliente_rut;
+	}
+
+	public void setCliente_rut(int cliente_rut) {
+		this.cliente_rut = cliente_rut;
+	}
+
+	public Timestamp getHoraIngreso() {
+		return horaIngreso;
+	}
+
+	public void setHoraIngreso(Timestamp horaIngreso) {
+		this.horaIngreso = horaIngreso;
+	}
+
 }
