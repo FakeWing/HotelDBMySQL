@@ -29,8 +29,8 @@ import java.awt.event.ActionListener;
 public class Menu extends JFrame {
 
 	private static JPanel contentPane;
-	private static JPanel contentPane1;
 	private static Menu frame;
+	private static JToggleButton button;
 
 	/**
 	 * Launch the application.
@@ -53,7 +53,7 @@ public class Menu extends JFrame {
 
 	public static void ButtonM() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 
-		JToggleButton button = new JToggleButton("BACKGROUND MUSIC OFF/ON");
+		button = new JToggleButton("M");
 		button.setBounds(645, 401, 55, 23);
 		frame.getContentPane().add(button);
 		BufferedInputStream myStream = new BufferedInputStream(
@@ -62,7 +62,9 @@ public class Menu extends JFrame {
 		Clip clip = AudioSystem.getClip();
 		button.setForeground(Color.RED);
 		clip.open(audioInputStream);
+		clip.loop(Clip.LOOP_CONTINUOUSLY);
 		clip.start();
+		
 
 		ItemListener itemListener = new ItemListener() {
 			public void itemStateChanged(ItemEvent itemEvent) {
@@ -112,6 +114,7 @@ public class Menu extends JFrame {
 		};
 		button.addItemListener(itemListener);
 		button.setVisible(true);
+		
 
 	}
 
@@ -123,15 +126,20 @@ public class Menu extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 726, 474);
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.MAGENTA);
+		contentPane.setBackground(Color.LIGHT_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JButton btnReservar = new JButton("Reservar Habitaci\u00F3n");
-		btnReservar.setBackground(Color.MAGENTA);
+		btnReservar.setBackground(Color.WHITE);
 		btnReservar.setBounds(81, 116, 184, 63);
 		contentPane.add(btnReservar);
+		btnReservar.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btnReservarActionPerformed(evt);
+			}
+			});
 
 		JLabel lblMenu = new JLabel("MENU PRINCIPAL");
 		lblMenu.setBackground(Color.WHITE);
@@ -140,7 +148,7 @@ public class Menu extends JFrame {
 		contentPane.add(lblMenu);
 
 		JButton btnRegistrarCliente = new JButton("Registrar Cliente");
-		btnRegistrarCliente.setBackground(Color.MAGENTA);
+		btnRegistrarCliente.setBackground(Color.WHITE);
 		btnRegistrarCliente.setBounds(375, 116, 184, 63);
 		contentPane.add(btnRegistrarCliente);
 
@@ -150,19 +158,27 @@ public class Menu extends JFrame {
 				btnRegistroDeProductosActionPerformed(evt);
 			}
 		});
-		btnRegistroDeProductos.setBackground(Color.MAGENTA);
+		btnRegistroDeProductos.setBackground(Color.WHITE);
 		btnRegistroDeProductos.setBounds(81, 257, 184, 63);
 		contentPane.add(btnRegistroDeProductos);
+		
+
 
 		btnRegistrarCliente.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnRegistrarClienteActionPerformed(evt);
 			}
 		});
+	
+	}
+	protected void btnReservarActionPerformed(ActionEvent evt) {
+		dispose();
+		new ReservaHabitacion().setVisible(true);
+		
 	}
 
 	protected void btnRegistroDeProductosActionPerformed(ActionEvent evt) {
-		ShoppingMain.main();
+		new RegistroProductos().setVisible(true);
 
 	}
 

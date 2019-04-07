@@ -3,22 +3,23 @@ package hotel.vista;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.*;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import com.toedter.calendar.JDateChooser;
 
 import hotel.controlador.CRUD;
 import hotel.modelo.Cliente;
+import hotel.modelo.Habitacion;
 
 public class RegistroCliente extends JFrame {
 	public static JTextField txtRut;
@@ -31,6 +32,11 @@ public class RegistroCliente extends JFrame {
 	public static JDateChooser dateChooser;
 
 	private JPanel contentPane;
+
+	private JTable table;
+	private DefaultTableModel tableModel;
+	int cont = 1;
+
 	// static Cliente cliente=Cliente.getInstance();
 
 	public static void main(String[] args) {
@@ -40,7 +46,6 @@ public class RegistroCliente extends JFrame {
 				try {
 					RegistroCliente frame = new RegistroCliente();
 					frame.setVisible(true);
-
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -58,6 +63,7 @@ public class RegistroCliente extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
 		contentPane.setLayout(null);
 
 		JButton btnRegistrar = new JButton("Registrar");
@@ -165,7 +171,36 @@ public class RegistroCliente extends JFrame {
 				btnVerificarRutActionPerformed(evt);
 			}
 		});
+		JScrollPane pane = new JScrollPane();
+		pane.setBounds(5, 404, 580, 165);
+		table = new JTable();
+		pane.setViewportView(table);
+		getContentPane().add(pane);
+		tableModel = new DefaultTableModel(new Object[] { "Rut", "Nombre", "A.Pat", "A.Mat" }, 0);
 
+		table.setModel(tableModel);
+
+		JButton btnAgregar = new JButton("Agregar");
+
+		btnAgregar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// int count = tableModel.getRowCount() + 1;
+				// tableModel.setRowCount(4);
+
+				tableModel.addRow(new Object[] { txtRut.getText(), txtNombre.getText(), txtApellidoP.getText(),
+						txtApellidoM.getText() });
+				if (cont > Habitacion.getOcupantes() - 1) {
+					btnAgregar.setEnabled(false);
+
+				} else {
+					cont++;
+				}
+
+			}
+		});
+
+		btnAgregar.setBounds(434, 356, 93, 21);
+		contentPane.add(btnAgregar);
 	}
 
 	protected void btnConfirmarFechaActionPerformed(ActionEvent evt) {

@@ -2,7 +2,8 @@ package hotel.modelo;
 
 public class Habitacion {
 
-	private int idhabitacion, valor, ocupantes;
+	private int idhabitacion, valor;
+	private static int ocupantes;
 	private String nombrehabitacion;
 	private double descuento;
 	
@@ -13,6 +14,10 @@ public class Habitacion {
 		this.ocupantes = ocupantes;
 		this.nombrehabitacion = nombrehabitacion;
 		this.descuento = descuento;
+	}
+	
+	public Habitacion() {
+		
 	}
 	
 	public Habitacion (int idhabitacion) {
@@ -35,7 +40,7 @@ public class Habitacion {
 		this.valor = valor;
 	}
 
-	public int getOcupantes() {
+	public static int getOcupantes() {
 		return ocupantes;
 	}
 

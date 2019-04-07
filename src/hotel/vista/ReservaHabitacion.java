@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -17,14 +18,19 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import hotel.controlador.CRUD;
-
+import hotel.controlador.RegistroCrud;
+import hotel.modelo.Registro;
 public class ReservaHabitacion extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5039458047900825437L;
 	private JPanel contentPane;
 	public static JTextField txtCodigoReserva;
 	public static JTextField txtHoraIngreso;
 	public static JTextField txtCantidadOcupantes;
-	public static JComboBox CBoxHab;
+	public static JComboBox<String> CBoxHab;
 	public static char id;
 
 	/**
@@ -94,10 +100,15 @@ public class ReservaHabitacion extends JFrame {
 		txtCantidadOcupantes.setBounds(185, 167, 99, 26);
 		contentPane.add(txtCantidadOcupantes);
 
-		CBoxHab = new JComboBox();
+		CBoxHab = new JComboBox<String>();
 		CBoxHab.setBounds(186, 215, 183, 20);
 		contentPane.add(CBoxHab);
-		CRUD.CBHabitacion(CBoxHab);
+		try {
+			RegistroCrud.CBHabitacion(CBoxHab);
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		CBoxHab.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				CBHabitacionActionPerformed(evt);
@@ -108,7 +119,13 @@ public class ReservaHabitacion extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				CRUD.crearRegistro();
+				try {
+					//System.out.print(CBoxHab.getItemAt(CBoxHab.getSelectedIndex()).toString().charAt(0));
+					RegistroCrud.crearRegistro();
+				} catch (InterruptedException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 
 			}
 		});
@@ -121,14 +138,17 @@ public class ReservaHabitacion extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				new Menu().setVisible(true);
 				dispose();
-				id = CBoxHab.getItemAt(CBoxHab.getSelectedIndex()).toString().charAt(0);
-				System.out.print(id);
+
 			}
 		});
 		btnNewButton_1.setBounds(272, 284, 89, 23);
 		contentPane.add(btnNewButton_1);
 
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("Momento");
+		rdbtnNewRadioButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		buttonGroup.add(rdbtnNewRadioButton);
 		rdbtnNewRadioButton.setBounds(175, 133, 89, 23);
 		contentPane.add(rdbtnNewRadioButton);
@@ -142,7 +162,12 @@ public class ReservaHabitacion extends JFrame {
 		btnNewButton_2.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CRUD.obtenerReserva();
+				try {
+					RegistroCrud.obtenerReserva();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnNewButton_2.setBounds(305, 46, 107, 23);
@@ -158,10 +183,11 @@ public class ReservaHabitacion extends JFrame {
 		CBoxHab.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				id = CBoxHab.getItemAt(CBoxHab.getSelectedIndex()).toString().charAt(0);
-
+			
 			}
+			
 		});
 	}
 
 }
+

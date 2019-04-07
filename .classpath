@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="C:/Program Files (x86)/Java/jre1.8.0_201/lib/ext/jgoodies-looks-2.4.1.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files (x86)/Java/jre1.8.0_201/lib/ext/jgoodies-common-1.2.0.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files (x86)/Java/jre1.8.0_201/lib/ext/junit-4.6.jar"/>
+	<classpathentry kind="lib" path="miglayout15-swing.jar" sourcepath="miglayout-src.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

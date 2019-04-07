@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -28,12 +30,14 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import hotel.modelo.Cliente;
+import hotel.modelo.Habitacion;
 import hotel.modelo.Producto;
 import hotel.modelo.Registro;
 import hotel.vista.RegistroCliente;
+import hotel.vista.Reportes;
 import hotel.vista.ReservaHabitacion;
 
-public class CRUD extends JFrame {
+public class CRUD extends JFrame implements Dao {
 
 	private static Component rootPane;
 
@@ -72,7 +76,7 @@ public class CRUD extends JFrame {
 
 			pst = con.connect().prepareStatement(SQL);
 			result = pst.executeQuery();
-			cbox_habitacion.addItem("Seleccione una opción");
+			cbox_habitacion.addItem("Seleccione una opcion");
 
 			while (result.next()) {
 				cbox_habitacion.addItem(result.getString("idhabitacion").toString()+"-"+result.getString("nombreHabitacion").toString());
@@ -160,115 +164,88 @@ public class CRUD extends JFrame {
 	    }
 		
 	
-		
-	public static ArrayList<Producto> mostrar() {
-        Conexion con = new Conexion();
-        
-        ArrayList<Producto> productos = null;
-        
-        try 
-        {
-            PreparedStatement stmt = null;
-            String query1 = "SELECT * FROM producto";
-            stmt = con.connect().prepareStatement(query1);
-            ResultSet r = stmt.executeQuery(query1);
-            productos = new ArrayList<Producto>();
-            
-            Producto pr;
-            
-            while(r.next()) {
-                pr = new Producto(r.getObject("nombreProducto").toString(),Integer.valueOf(r.getObject("valorProducto").toString()),Integer.valueOf(r.getObject("cantidadProducto").toString()), 0);
-                productos.add(pr);
-            }
-            
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        
-        return productos;
-    }
+
 	
-	public void insertar(Registro registro) throws SQLException {
-
-		String sql1 = "INSERT INTO hoteldb.registro (codReserva,horaIngreso,idHabitacion) VALUES (?,?,?)";
-		String sql2 = "INSERT INTO hoteldb.registro_has_cliente (registro_codigoReserva,cliente_rut) VALUES (?,?)";
-
+	public static List<Cliente> mostrar() throws Exception {
+		ResultSet res;
+		List listavalores = new ArrayList();
 		try {
-			Conexion con = new Conexion();
-
-			PreparedStatement ps1 = con.connect().prepareStatement(sql1);
-			PreparedStatement ps2 = con.connect().prepareStatement(sql2);
-
-			ps1.setInt(1, registro.getRegistro_codigoReserva());
-			ps1.setTimestamp(2,registro.getHoraIngreso());
-			ps1.setInt(3, registro.getIdHabitacion());
-
-			ps2.setInt(1, registro.getIdregistro());
-			ps2.setInt(2, registro.getCliente_rut());
-			
-			ps1.executeUpdate();
-			ps2.executeUpdate();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static void crearRegistro() {
-		CRUD C=new CRUD();
-		Registro registro = new Registro();
-		registro.setRegistro_codigoReserva(Integer.parseInt(ReservaHabitacion.txtCodigoReserva.getText()));
 		
-		registro.setHoraIngreso(Timestamp.valueOf(ReservaHabitacion.txtHoraIngreso.getText()));
-		//registro.setHoraIngreso(Timestamp.valueOf(LocalDateTime.now()));
-		//registro.setIdHabitacion(int)(String.valueOf(hab));
+		String query1 = "SELECT * FROM hoteldb";
 		
-		registro.setIdHabitacion(ReservaHabitacion.id);
-		/*
-		cliente.setNombre(RegistroCliente.txtNombre.getText());
-		*/
-		try {
-			System.out.print(registro);
-			
-			C.insertar(registro);
-		}catch(SQLException e) {
-			
+		PreparedStatement pre = null;
+		res = pre.executeQuery();
+		while (res.next()) {
+		
+				res.getInt("rut");
+                res.getString("nombre");
+                res.getString("patApellido");
+                res.getString("matApellido");
+                res.getString("sexo");
+                res.getString("fechaNac");
+                res.getString("nacionalidad");
+                
+            listavalores.add(res);
+			}
+		
+		}catch(Exception e){
+		
 		}
-	}
+			System.out.print(listavalores);
+		return listavalores;
+		
+		}
+		
+		
+		
+		public ArrayList<Cliente> clientlist()  {
+			ArrayList<Cliente> clientlist = new ArrayList<>();
+			
+			
+			try {
+			String query1 = "SELECT * FROM Cliente";
+			ResultSet res;
+			PreparedStatement pre = null;
+			res = pre.executeQuery();
+			Cliente cliente;
+			while (res.next()) {
+			
+				cliente= new Cliente(  
+					res.getInt("rut"),
+	                res.getString("nombre"),
+	                res.getString("patApellido"),
+	                res.getString("matApellido"),
+	                res.getString("sexo"),
+	                res.getString("fechaNac"),
+	                res.getString("nacionalidad"));
+	                
+	            clientlist.add(cliente);
+				}
+			
+			}catch(Exception e){
+			
+				JOptionPane.showMessageDialog(null, e);
+			}
+				System.out.print(clientlist);
+			return clientlist;
+			
+			}
+		
+		
 	
-
 	
-	
-
-	public static void obtenerReserva () {
-		Registro registro = new Registro();
-		//int rut=Integer.parseInt(RegistroCliente.txtRut.getText());
-		  //int cod; 
-        //Cliente cliente=Cliente.getInstance();
-        try {
-        	Conexion con = new Conexion();
-            java.sql.PreparedStatement stmt=null;
-            //String query = "select * from cliente where rut=?";
-            String query = "SELECT MAX(codigoReserva) FROM registro";
-            //stmt.setInt(1,rut);
-            
-            stmt = con.connect().prepareStatement(query);
-            ResultSet rs = stmt.executeQuery(query);
-            
-            while (rs.next()) {
-            	//registro.getIdregistro();
-                registro.setIdregistro((Integer.parseInt(rs.getObject("MAX(codigoReserva)").toString()))+1);
-              
-            }
-            ReservaHabitacion.txtCodigoReserva.setText(String.valueOf(registro.getIdregistro()));
-    		DateFormat tf = new SimpleDateFormat("yyyy-MM-dd h:mm a");
-    		Calendar calendar = Calendar.getInstance();
-    		Date Timestamp = new Timestamp(calendar.getTime().getTime());
-    		ReservaHabitacion.txtHoraIngreso.setText(tf.format(Timestamp));
-        } catch (SQLException e) {
-
-            System.out.println(e.getMessage());
-        }
-	}
+	public static void reportear() {
+		Connection conn = (Connection) new Conexion();
+		try	{
+			PreparedStatement st =conn.prepareStatement("Select * from hoteldb;");
+			ResultSet rs = st.executeQuery();
+			//Reportes.table.setModel(DbUtils.resultSetToTableModel(rs));
+			conn.close();
+			}
+		catch(Exception ex)
+			{ 
+			JOptionPane.showMessageDialog(null, ex.toString());
+			}
+		}
 
 }

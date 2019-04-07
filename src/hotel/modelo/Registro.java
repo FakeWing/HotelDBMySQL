@@ -1,11 +1,10 @@
 package hotel.modelo;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 public class Registro {
 
-	private int idregistro, registro_codigoReserva, idHabitacion, cliente_rut;
+	private int codigoReserva, idHabitacion, cliente_rut;
 	private Timestamp horaIngreso;
 	//private Cliente cliente;
 	
@@ -13,33 +12,19 @@ public class Registro {
 		
 	}
 	
-	public Registro (int idregistro, int cliente_rut) {
+	public Registro (int codigoReserva, Timestamp horaIngreso, int idHabitacion) {
 		
-		this.idregistro = idregistro;
-		this.cliente_rut = cliente_rut;
-	}
-	
-	public Registro (int registro_codigoReserva, Timestamp horaIngreso, int idHabitacion) {
-		
-		this.registro_codigoReserva = registro_codigoReserva;
+		this.codigoReserva = codigoReserva;
 		this.horaIngreso = horaIngreso;
 		this.idHabitacion = idHabitacion;
 	}
 
-	public int getIdregistro() {
-		return idregistro;
+	public int getcodigoReserva() {
+		return codigoReserva;
 	}
 
-	public void setIdregistro(int idregistro) {
-		this.idregistro = idregistro;
-	}
-
-	public int getRegistro_codigoReserva() {
-		return registro_codigoReserva;
-	}
-
-	public void setRegistro_codigoReserva(int registro_codigoReserva) {
-		this.registro_codigoReserva = registro_codigoReserva;
+	public void setcodigoReserva(int codigoReserva) {
+		this.codigoReserva = codigoReserva;
 	}
 
 	public int getIdHabitacion() {
@@ -58,7 +43,11 @@ public class Registro {
 		this.cliente_rut = cliente_rut;
 	}
 
-	public Timestamp getHoraIngreso() {
+	public String getHoraIngreso() {
+		return "'"+horaIngreso+"'";
+	}
+	
+	public Timestamp getHoraIngresoTimestamp() {
 		return horaIngreso;
 	}
 
@@ -66,4 +55,6 @@ public class Registro {
 		this.horaIngreso = horaIngreso;
 	}
 
+
+	
 }
