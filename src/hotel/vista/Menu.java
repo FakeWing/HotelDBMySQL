@@ -1,29 +1,25 @@
 package hotel.vista;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.io.BufferedInputStream;
+import java.io.IOException;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JToggleButton;
-import javax.swing.border.EmptyBorder;
-
-import hotel.controlador.CRUD;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.awt.Color;
+import javax.swing.JPanel;
+import javax.swing.JToggleButton;
+import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
 
 public class Menu extends JFrame {
@@ -32,9 +28,7 @@ public class Menu extends JFrame {
 	private static Menu frame;
 	private static JToggleButton button;
 
-	/**
-	 * Launch the application.
-	 */
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -62,9 +56,8 @@ public class Menu extends JFrame {
 		Clip clip = AudioSystem.getClip();
 		button.setForeground(Color.RED);
 		clip.open(audioInputStream);
-		clip.loop(Clip.LOOP_CONTINUOUSLY);
+
 		clip.start();
-		
 
 		ItemListener itemListener = new ItemListener() {
 			public void itemStateChanged(ItemEvent itemEvent) {
@@ -72,7 +65,6 @@ public class Menu extends JFrame {
 
 				if (state == ItemEvent.SELECTED) {
 
-					// button.setIcon(null);
 					button.setForeground(Color.BLUE);
 
 					clip.close();
@@ -106,7 +98,6 @@ public class Menu extends JFrame {
 					state = ItemEvent.DESELECTED;
 					button.setForeground(Color.RED);
 
-					clip.loop(Clip.LOOP_CONTINUOUSLY);
 					clip.start();
 					System.out.println("MUSIC ON");
 				}
@@ -114,7 +105,6 @@ public class Menu extends JFrame {
 		};
 		button.addItemListener(itemListener);
 		button.setVisible(true);
-		
 
 	}
 
@@ -131,7 +121,7 @@ public class Menu extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JButton btnReservar = new JButton("Reservar Habitaci\u00F3n");
+		JButton btnReservar = new JButton("Reservar Habitacion");
 		btnReservar.setBackground(Color.WHITE);
 		btnReservar.setBounds(81, 116, 184, 63);
 		contentPane.add(btnReservar);
@@ -139,7 +129,7 @@ public class Menu extends JFrame {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnReservarActionPerformed(evt);
 			}
-			});
+		});
 
 		JLabel lblMenu = new JLabel("MENU PRINCIPAL");
 		lblMenu.setBackground(Color.WHITE);
@@ -147,10 +137,10 @@ public class Menu extends JFrame {
 		lblMenu.setBounds(263, 11, 170, 63);
 		contentPane.add(lblMenu);
 
-		JButton btnRegistrarCliente = new JButton("Registrar Cliente");
-		btnRegistrarCliente.setBackground(Color.WHITE);
-		btnRegistrarCliente.setBounds(375, 116, 184, 63);
-		contentPane.add(btnRegistrarCliente);
+		JButton btnReportes = new JButton("Reportes");
+		btnReportes.setBackground(Color.WHITE);
+		btnReportes.setBounds(374, 257, 184, 63);
+		contentPane.add(btnReportes);
 
 		JButton btnRegistroDeProductos = new JButton("Registro de Productos");
 		btnRegistroDeProductos.addActionListener(new java.awt.event.ActionListener() {
@@ -162,19 +152,28 @@ public class Menu extends JFrame {
 		btnRegistroDeProductos.setBounds(81, 257, 184, 63);
 		contentPane.add(btnRegistroDeProductos);
 		
-
-
-		btnRegistrarCliente.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				btnRegistrarClienteActionPerformed(evt);
+		JButton btnLiberarHabitacin = new JButton("Liberar Habitacion");
+		btnLiberarHabitacin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new FreeRoom().setVisible(true);
 			}
 		});
-	
+		btnLiberarHabitacin.setBackground(Color.WHITE);
+		btnLiberarHabitacin.setBounds(374, 116, 184, 63);
+		contentPane.add(btnLiberarHabitacin);
+
+		btnReportes.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btnReportesActionPerformed(evt);
+			}
+		});
+
 	}
+
 	protected void btnReservarActionPerformed(ActionEvent evt) {
 		dispose();
 		new ReservaHabitacion().setVisible(true);
-		
+
 	}
 
 	protected void btnRegistroDeProductosActionPerformed(ActionEvent evt) {
@@ -182,10 +181,10 @@ public class Menu extends JFrame {
 
 	}
 
-	protected void btnRegistrarClienteActionPerformed(ActionEvent evt) {
+	protected void btnReportesActionPerformed(ActionEvent evt) {
 		dispose();
 
-		new RegistroCliente().setVisible(true);
+		new Reportes().setVisible(true);
 
 	}
 

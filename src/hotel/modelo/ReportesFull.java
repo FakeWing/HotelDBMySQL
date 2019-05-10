@@ -3,27 +3,26 @@ package hotel.modelo;
 import java.sql.Timestamp;
 
 public class ReportesFull {
-	//Reportes
+	// Reportes
 	public static int txtRutBuscar;
 	public static String table;
-	//Cliente
+	// Cliente
 	public static int rut;
 	public static String nombre, apellidoP, apellidoM, sexo, nacionalidad, fechadenacimiento;
-	//Habitacion
+	// Habitacion
 	public static int idhabitacion, valor, ocupantes;
 	public static String nombrehabitacion;
 	public static double descuento;
-	//Producto
+	// Producto
 	public static int idproducto, cantproducto, valorproducto;
 	public static String nombreproducto;
-	//Registro
+	// Registro
 	public static int idregistro, registro_codigoReserva, idHabitacion, cliente_rut;
-	public static Timestamp horaIngreso;
-	
-	
-	
-	public ReportesFull () {
-	
+	public static Timestamp horaIngreso, horaSalida;
+	public static int estadia;
+
+	public ReportesFull() {
+
 	}
 
 	public int getTxtRutBuscar() {
@@ -217,7 +216,21 @@ public class ReportesFull {
 	public static void setHoraIngreso(Timestamp horaIngreso) {
 		ReportesFull.horaIngreso = horaIngreso;
 	}
-	
-	
-	
+
+	public static Timestamp getHoraSalida() {
+		return horaSalida;
+	}
+
+	public static void setHoraSalida(Timestamp horaSalida) {
+		ReportesFull.horaSalida = horaSalida;
+	}
+
+	public static int getEstadia() {
+		return estadia;
+	}
+
+	public static void setEstadia(int estadia) {
+		ReportesFull.estadia = estadia;
+	}
+
 }

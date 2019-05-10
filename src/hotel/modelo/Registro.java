@@ -5,15 +5,14 @@ import java.sql.Timestamp;
 public class Registro {
 
 	private int codigoReserva, idHabitacion, cliente_rut;
-	private Timestamp horaIngreso;
-	//private Cliente cliente;
-	
-	public Registro () {
-		
+	private Timestamp horaIngreso, horaSalida;
+
+	public Registro() {
+
 	}
-	
-	public Registro (int codigoReserva, Timestamp horaIngreso, int idHabitacion) {
-		
+
+	public Registro(int codigoReserva, Timestamp horaIngreso, int idHabitacion) {
+
 		this.codigoReserva = codigoReserva;
 		this.horaIngreso = horaIngreso;
 		this.idHabitacion = idHabitacion;
@@ -44,9 +43,9 @@ public class Registro {
 	}
 
 	public String getHoraIngreso() {
-		return "'"+horaIngreso+"'";
+		return "'" + horaIngreso + "'";
 	}
-	
+
 	public Timestamp getHoraIngresoTimestamp() {
 		return horaIngreso;
 	}
@@ -55,6 +54,20 @@ public class Registro {
 		this.horaIngreso = horaIngreso;
 	}
 
+	public int getCodigoReserva() {
+		return codigoReserva;
+	}
 
-	
+	public void setCodigoReserva(int codigoReserva) {
+		this.codigoReserva = codigoReserva;
+	}
+
+	public Timestamp getHoraSalida() {
+		return horaSalida;
+	}
+
+	public void setHoraSalida(Timestamp horaSalida) {
+		this.horaSalida = horaSalida;
+	}
+
 }

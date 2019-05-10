@@ -2,10 +2,14 @@ package hotel.modelo;
 
 public class Habitacion {
 
-	private int idhabitacion, valor;
+	private static int idhabitacion;
+	private int valor;
 	private static int ocupantes;
 	private String nombrehabitacion;
 	private double descuento;
+	private static int totalproducto;
+	private static int totalregistro;
+	private static int totalclientes;
 	
 	public Habitacion(int idhabitacion, int valor, int ocupantes, String nombrehabitacion, double descuento) {
 	
@@ -20,11 +24,38 @@ public class Habitacion {
 		
 	}
 	
+	
+	
 	public Habitacion (int idhabitacion) {
 		this.idhabitacion = idhabitacion;
 	}
 
-	public int getIdhabitacion() {
+	
+	public int getTotalproducto() {
+		return totalproducto;
+	}
+
+	public void setTotalproducto(int totalproducto) {
+		this.totalproducto = totalproducto;
+	}
+
+	public int getTotalregistro() {
+		return totalregistro;
+	}
+
+	public void setTotalregistro(int totalregistro) {
+		this.totalregistro = totalregistro;
+	}
+
+	public int getTotalclientes() {
+		return totalclientes;
+	}
+
+	public void setTotalclientes(int totalclientes) {
+		this.totalclientes = totalclientes;
+	}
+
+	public static int getIdhabitacion() {
 		return idhabitacion;
 	}
 

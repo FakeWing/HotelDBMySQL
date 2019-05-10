@@ -4,10 +4,12 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -30,12 +32,15 @@ public class RegistroCliente extends JFrame {
 	public static JTextField txtNacionalidad;
 	public static JTextField txtFecha;
 	public static JDateChooser dateChooser;
+	public static int idhabitacion;
 
 	private JPanel contentPane;
 
-	private JTable table;
-	private DefaultTableModel tableModel;
+	public static JTable table;
+	public static DefaultTableModel tableModel;
 	int cont = 1;
+	public static JTextField txtReserva;
+	public static JTextField txtHabitacion;
 
 	// static Cliente cliente=Cliente.getInstance();
 
@@ -46,11 +51,20 @@ public class RegistroCliente extends JFrame {
 				try {
 					RegistroCliente frame = new RegistroCliente();
 					frame.setVisible(true);
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
+	}
+
+	public static int getIdhabitacion() {
+		return idhabitacion;
+	}
+
+	public static void setIdhabitacion(int idhabitacion) {
+		RegistroCliente.idhabitacion = idhabitacion;
 	}
 
 	/**
@@ -59,6 +73,7 @@ public class RegistroCliente extends JFrame {
 	public RegistroCliente() {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 		setBounds(100, 100, 611, 701);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -68,21 +83,16 @@ public class RegistroCliente extends JFrame {
 
 		JButton btnRegistrar = new JButton("Registrar");
 		btnRegistrar.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnRegistrar.setBounds(80, 580, 121, 44);
+		btnRegistrar.setBounds(43, 587, 121, 44);
 		contentPane.add(btnRegistrar);
 		btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				btnRegistrarActionPerformed(evt);
-			}
-		});
-
-		JButton btnVolver = new JButton("Volver");
-		btnVolver.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnVolver.setBounds(336, 580, 121, 44);
-		contentPane.add(btnVolver);
-		btnVolver.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				btnVolverActionPerformed(evt);
+				try {
+					btnRegistrarActionPerformed(evt);
+					dispose();
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(rootPane, "Llene el registro.");
+				}
 			}
 		});
 
@@ -149,8 +159,8 @@ public class RegistroCliente extends JFrame {
 		dateChooser.setBounds(392, 322, 22, 20);
 		contentPane.add(dateChooser);
 
-		JButton btnConfirmarFecha = new JButton("Confirmar");
-		btnConfirmarFecha.setBounds(424, 318, 103, 23);
+		JButton btnConfirmarFecha = new JButton("Confirmar Fecha");
+		btnConfirmarFecha.setBounds(434, 318, 125, 23);
 		contentPane.add(btnConfirmarFecha);
 		btnConfirmarFecha.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -159,7 +169,7 @@ public class RegistroCliente extends JFrame {
 		});
 
 		JButton btnVerificarRut = new JButton("Verificar Rut");
-		btnVerificarRut.setBounds(424, 138, 121, 23);
+		btnVerificarRut.setBounds(434, 135, 121, 23);
 		contentPane.add(btnVerificarRut);
 
 		txtFecha = new JTextField();
@@ -180,7 +190,7 @@ public class RegistroCliente extends JFrame {
 
 		table.setModel(tableModel);
 
-		JButton btnAgregar = new JButton("Agregar");
+		JButton btnAgregar = new JButton("Agregar al Registro");
 
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -199,30 +209,115 @@ public class RegistroCliente extends JFrame {
 			}
 		});
 
-		btnAgregar.setBounds(434, 356, 93, 21);
+		btnAgregar.setBounds(434, 356, 125, 21);
 		contentPane.add(btnAgregar);
+
+		JButton btnAgregaradb = new JButton("Agregar a DB");
+		btnAgregaradb.setBounds(434, 282, 125, 21);
+		contentPane.add(btnAgregaradb);
+		btnAgregaradb.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btnAgregaradbActionPerformed(evt);
+			}
+		});
+
+		JButton btnLimpiar = new JButton("Limpiar");
+		btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btnLimpiarActionPerformed(evt);
+			}
+		});
+		btnLimpiar.setBounds(434, 244, 125, 21);
+		contentPane.add(btnLimpiar);
+
+		txtReserva = new JTextField();
+		txtReserva.setEditable(false);
+		txtReserva.setColumns(10);
+		txtReserva.setBounds(100, 52, 130, 26);
+		contentPane.add(txtReserva);
+		txtReserva.setText(ReservaHabitacion.txtCodigoReserva.getText());
+
+		JLabel lblReserva = new JLabel("Reserva");
+		lblReserva.setBounds(136, 24, 65, 14);
+		contentPane.add(lblReserva);
+
+		txtHabitacion = new JTextField();
+		txtHabitacion.setEditable(false);
+		txtHabitacion.setColumns(10);
+		txtHabitacion.setBounds(327, 52, 130, 26);
+		contentPane.add(txtHabitacion);
+		txtHabitacion.setText(String.valueOf(ReservaHabitacion.CBoxHab.getSelectedItem()));
+
+		JLabel lblHabitacion = new JLabel("Habitacion");
+		lblHabitacion.setBounds(363, 24, 70, 14);
+		contentPane.add(lblHabitacion);
+
+		JButton btnVolver = new JButton("Volver");
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+				ReservaHabitacion.registrar = false;
+				ReservaHabitacion.btnNewButton.setEnabled(true);
+			}
+		});
+		btnVolver.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnVolver.setBounds(464, 587, 121, 44);
+		contentPane.add(btnVolver);
+
+		JButton btnClienteDelAmor = new JButton("Cliente del amor");
+		btnClienteDelAmor.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnClienteDelAmor.setBounds(213, 587, 183, 44);
+		contentPane.add(btnClienteDelAmor);
+		btnClienteDelAmor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CRUD.ClienteAmorCheck();
+				btnClienteDelAmor.setEnabled(false);
+			}
+		});
+	}
+
+	protected void btnLimpiarActionPerformed(ActionEvent evt) {
+		txtRut.setText("");
+		txtNombre.setText("");
+		txtApellidoP.setText("");
+		txtApellidoM.setText("");
+		txtSexo.setText("");
+		txtNacionalidad.setText("");
+		txtFecha.setText("");
+
+	}
+
+	protected void btnAgregaradbActionPerformed(ActionEvent evt) {
+		try {
+			CRUD.crearCliente();
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(rootPane, "Llene los datos primero.");
+		}
 	}
 
 	protected void btnConfirmarFechaActionPerformed(ActionEvent evt) {
-		CRUD.ConfirmarFecha();
+		try {
+			CRUD.ConfirmarFecha();
+		} catch (NullPointerException e) {
+			JOptionPane.showMessageDialog(rootPane, "Seleccione una fecha primero.");
+		}
 
 	}
 
 	protected void btnVerificarRutActionPerformed(ActionEvent evt) {
-		CRUD.VerificarRut();
-		CRUD.LlenarDatos(Cliente.getInstance());
 
+		if (RegistroCliente.txtRut.getText().equals("")) {
+			JOptionPane.showMessageDialog(rootPane, "Ingrese un rut.");
+
+		} else {
+			CRUD.VerificarRut();
+			CRUD.LlenarDatos(Cliente.getInstance());
+
+		}
 	}
 
-	protected void btnRegistrarActionPerformed(ActionEvent evt) {
-
-		CRUD.crearCliente();
-
-	}
-
-	protected void btnVolverActionPerformed(ActionEvent evt) {
-		new Menu().setVisible(true);
-		dispose();
+	protected void btnRegistrarActionPerformed(ActionEvent evt) throws SQLException {
+		CRUD.valoresTabla();
 
 	}
 }
